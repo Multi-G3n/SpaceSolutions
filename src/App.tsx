@@ -92,6 +92,7 @@ function ContactForm() {
   return <>
     <form className="contact-form" onSubmit={handleSubmit}>
       <div className="form-row"><label>Your name<input name="name" autoComplete="name" placeholder="How should we address you?" required minLength={2} /></label><label>Email address<input type="email" name="email" autoComplete="email" placeholder="you@company.com" required /></label></div>
+      <label>Phone number (optional)<input type="tel" name="phone" autoComplete="tel" placeholder="+60 12-345 6789" /></label>
       <label>What are you looking for?<select name="service" defaultValue="" required><option value="" disabled>Select a service</option><option>Website development</option><option>Graphic design</option><option>Content creation</option><option>AI automation</option><option>Wedding digital card</option><option>Wedding photography + videography</option><option>A mix of things</option></select></label>
       <label>A little about your project<textarea name="message" placeholder="What are you building, and what would you like help with?" rows={4} required minLength={10} /></label>
       <button type="submit" className="button button-light" disabled={submitting}>{submitting ? 'Sending…' : 'Send your enquiry'} <Arrow diagonal /></button>
