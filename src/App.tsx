@@ -55,32 +55,47 @@ function Portfolio() {
 }
 
 function ContactForm() {
-  const [submitted, setSubmitted] = useState(false)
+  const [draftReady, setDraftReady] = useState(false)
   const [error, setError] = useState('')
+
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const form = event.currentTarget
     if (!form.checkValidity()) { form.reportValidity(); return }
+
     const name = (form.elements.namedItem('name') as HTMLInputElement).value.trim()
     const email = (form.elements.namedItem('email') as HTMLInputElement).value.trim()
     const service = (form.elements.namedItem('service') as HTMLSelectElement).value
     const message = (form.elements.namedItem('message') as HTMLTextAreaElement).value.trim()
     const subject = encodeURIComponent(`Project enquiry from ${name}`)
     const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nService: ${service}\n\nProject details:\n${message}`)
-    setError('')
-    setSubmitted(true)
-    window.location.href = `mailto:muhddanish704@gmail.com?subject=${subject}&body=${body}`
-    form.reset()
-  }
-  return <form className="contact-form" onSubmit={handleSubmit}>
-    <div className="form-row"><label>Your name<input name="name" autoComplete="name" placeholder="How should we address you?" required minLength={2} /></label><label>Email address<input type="email" name="email" autoComplete="email" placeholder="you@company.com" required /></label></div>
-    <label>What are you looking for?<select name="service" defaultValue="" required><option value="" disabled>Select a service</option><option>Website development</option><option>Graphic design</option><option>Content creation</option><option>AI automation</option><option>Wedding digital card</option><option>Wedding photography + videography</option><option>A mix of things</option></select></label>
-    <label>A little about your project<textarea name="message" placeholder="What are you building, and what would you like help with?" rows={4} required minLength={10} /></label>
-    <button type="submit" className="button button-light">Check your enquiry <Arrow diagonal /></button>
-    <p className="form-note" aria-live="polite">{error || (submitted ? 'Your email app should open with your enquiry ready to send. If it does not, email muhddanish704@gmail.com directly.' : 'Submitting opens your email app with the enquiry details. Nothing is stored on this website.')}</p>
-  </form>
-}
 
+    setError('')
+    setDraftReady(true)
+    window.location.href = `mailto:muhddanish704@gmail.com?subject=${subject}&body=${body}`
+  }
+
+  return <>
+    <form className="contact-form" onSubmit={handleSubmit}>
+      <div className="form-row"><label>Your name<input name="name" autoComplete="name" placeholder="How should we address you?" required minLength={2} /></label><label>Email address<input type="email" name="email" autoComplete="email" placeholder="you@company.com" required /></label></div>
+      <label>What are you looking for?<select name="service" defaultValue="" required><option value="" disabled>Select a service</option><option>Website development</option><option>Graphic design</option><option>Content creation</option><option>AI automation</option><option>Wedding digital card</option><option>Wedding photography + videography</option><option>A mix of things</option></select></label>
+      <label>A little about your project<textarea name="message" placeholder="What are you building, and what would you like help with?" rows={4} required minLength={10} /></label>
+      <button type="submit" className="button button-light">Send your enquiry <Arrow diagonal /></button>
+      <p className="form-note" aria-live="polite">{error || 'This prepares an email draft. Press Send in your email app to deliver your enquiry; this website does not store it.'}</p>
+    </form>
+    {draftReady && <div className="success-backdrop" role="presentation">
+      <section className="success-dialog" role="dialog" aria-modal="true" aria-labelledby="enquiry-draft-title">
+        <button type="button" className="success-close" aria-label="Close message" onClick={() => setDraftReady(false)}>×</button>
+        <span className="success-icon" aria-hidden="true">↗</span>
+        <span className="eyebrow">ONE LAST STEP</span>
+        <h2 id="enquiry-draft-title">Finish sending your enquiry.</h2>
+        <p>Your email app should open with your message ready. Press Send there to deliver it to us.</p>
+        <a className="button button-blue" href="mailto:muhddanish704@gmail.com">Email muhddanish704@gmail.com <Arrow diagonal /></a>
+        <button type="button" className="success-dismiss" onClick={() => setDraftReady(false)}>Close</button>
+      </section>
+    </div>}
+  </>
+}
 function PackageCards({ items }: { items: typeof packages }) {
   return <div className="package-grid">{items.map(p => <article className={p.featured ? 'package-card package-featured' : 'package-card'} key={p.name}><div className="package-top"><span className="eyebrow">{p.featured ? 'MOST POPULAR START' : 'INTRODUCTORY PACKAGE'}</span><span className="package-spark">✳</span></div><h3>{p.name}</h3><p>{p.note}</p><div className="package-price">{p.price}{p.price === 'Custom quote' ? null : <span> / starting from</span>}</div><ul>{p.items.map(item => <li key={item}><span>↗</span>{item}</li>)}</ul><a href="#contact" className={p.featured ? 'package-cta package-cta-light' : 'package-cta'}>Ask about this package <Arrow /></a></article>)}</div>
 }
