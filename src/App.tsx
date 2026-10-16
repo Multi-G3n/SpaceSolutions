@@ -41,40 +41,76 @@ function Header() {
 }
 
 function ProjectVisual({ kind }: { kind: 'cafe' | 'wellness' | 'goods' }) {
-  if (kind === 'cafe') return <div className="project-art cafe-art"><div className="browser-bar"><i /><i /><i /><span>kopiandco.my</span></div><div className="cafe-layout"><div className="cafe-copy"><span>GOOD DAYS START HERE</span><b>A little<br />more local.</b><small>Good coffee. Good company.</small><em>EXPLORE THE MENU ↗</em></div><div className="coffee-cup"><span>kopi<br />& co.</span></div></div><div className="cafe-stamp">BREWED<br />WITH CARE</div></div>
-  if (kind === 'wellness') return <div className="project-art wellness-art"><div className="wellness-top"><span>ALUNA / WELLNESS</span><span>MENU&nbsp;&nbsp; ☰</span></div><div className="wellness-shape shape-one"/><div className="wellness-shape shape-two"/><div className="wellness-copy"><small>COME BACK TO YOU</small><b>Room to<br /><i>feel good.</i></b><span>A slower kind of self-care.</span><button>FIND YOUR RITUAL&nbsp; ↗</button></div><div className="wellness-flower">✳</div></div>
-  return <div className="project-art goods-art"><div className="goods-nav"><span>FIELDNOTES</span><span>OBJECTS FOR EVERY DAY&nbsp;&nbsp; · &nbsp;&nbsp; BAG (0)</span></div><div className="goods-copy"><small>THE EVERYDAY COLLECTION</small><b>Made for<br />the in-between.</b><span>Thoughtful things. Made to last.</span><button>SHOP THE COLLECTION&nbsp; ↗</button></div><div className="goods-object object-a"/><div className="goods-object object-b"/><div className="goods-sun"/></div>
+  if (kind === 'cafe') return <div className="project-art cafe-art"><div className="browser-bar"><i /><i /><i /><span>LOCAL CAFE · WEBSITE</span></div><div className="cafe-layout"><div className="cafe-copy"><span>GOOD DAYS START HERE</span><b>A little<br />more local.</b><small>Good coffee. Good company.</small><em>EXPLORE THE MENU ↗</em></div><div className="coffee-cup"><span>LOCAL<br />COFFEE</span></div></div><div className="cafe-stamp">BREWED<br />WITH CARE</div></div>
+  if (kind === 'wellness') return <div className="project-art wellness-art"><div className="wellness-top"><span>WELLNESS PRACTICE</span><span>MENU&nbsp;&nbsp; ☰</span></div><div className="wellness-shape shape-one"/><div className="wellness-shape shape-two"/><div className="wellness-copy"><small>COME BACK TO YOU</small><b>Room to<br /><i>feel good.</i></b><span>A slower kind of self-care.</span><button>FIND YOUR RITUAL&nbsp; ↗</button></div><div className="wellness-flower">✳</div></div>
+  return <div className="project-art goods-art"><div className="goods-nav"><span>PRODUCT STUDIO</span><span>OBJECTS FOR EVERY DAY&nbsp;&nbsp; · &nbsp;&nbsp; BAG (0)</span></div><div className="goods-copy"><small>THE EVERYDAY COLLECTION</small><b>Made for<br />the in-between.</b><span>Thoughtful things. Made to last.</span><button>SHOP THE COLLECTION&nbsp; ↗</button></div><div className="goods-object object-a"/><div className="goods-object object-b"/><div className="goods-sun"/></div>
 }
 
 function Portfolio() {
   const projects = [
-    { label: 'WEBSITE · HOSPITALITY', name: 'Kopi & Co.', desc: 'A friendly digital home for a neighbourhood coffee shop.', kind: 'cafe' as const },
-    { label: 'BRAND + WEBSITE · WELLNESS', name: 'Aluna Wellness', desc: 'A softer visual identity for a modern wellness practice.', kind: 'wellness' as const },
-    { label: 'ECOMMERCE · LIFESTYLE', name: 'Fieldnotes Supply', desc: 'A considered storefront for everyday objects.', kind: 'goods' as const },
+    { label: 'WEBSITE · HOSPITALITY', name: 'Hospitality website', desc: 'A clear digital home for menus, location and booking enquiries.', kind: 'cafe' as const },
+    { label: 'BRAND + WEBSITE · WELLNESS', name: 'Wellness practice', desc: 'A calm visual direction for a service-led wellbeing business.', kind: 'wellness' as const },
+    { label: 'ECOMMERCE · LIFESTYLE', name: 'Product storefront', desc: 'An editorial storefront direction for thoughtfully made goods.', kind: 'goods' as const },
   ]
-  return <section className="section work-section" id="work"><div className="section-heading"><div><span className="eyebrow">A FEEL FOR THE WORK</span><h2>Good ideas,<br /><span>made tangible.</span></h2></div><p>Three concept projects exploring what a thoughtful digital presence could look like across different kinds of businesses.</p></div><div className="project-grid">{projects.map((p, i) => <article className="project-card" key={p.name}><a href="#contact" className="project-link" aria-label={`Discuss a project like ${p.name}`}><ProjectVisual kind={p.kind} /><div className="project-meta"><div><span className="eyebrow">{p.label} <span className="concept-label">· CONCEPT</span></span><h3>{p.name}</h3><p>{p.desc}</p></div><span className="project-arrow"><Arrow diagonal /></span></div></a><span className="project-index">0{i + 1}</span></article>)}</div><p className="concept-note">Concept work for presentation purposes; these are not client projects.</p></section>
+  return <section className="section work-section" id="work"><div className="section-heading"><div><span className="eyebrow">HOW WE APPROACH EACH BRIEF</span><h2>Good ideas,<br /><span>made tangible.</span></h2></div><p>Illustrative design directions for different business needs. Each example shows the kind of thinking behind the work, without presenting fictional brands as clients.</p></div><div className="project-grid">{projects.map((p, i) => <article className="project-card" key={p.name}><a href="#contact" className="project-link" aria-label={`Discuss a project like ${p.name}`}><ProjectVisual kind={p.kind} /><div className="project-meta"><div><span className="eyebrow">{p.label} <span className="concept-label">· SAMPLE DIRECTION</span></span><h3>{p.name}</h3><p>{p.desc}</p></div><span className="project-arrow"><Arrow diagonal /></span></div></a><span className="project-index">0{i + 1}</span></article>)}</div><p className="concept-note">Illustrative design studies only. No client work or business results are claimed.</p></section>
 }
 
 function ContactForm() {
+  const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState('')
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const form = event.currentTarget
     if (!form.checkValidity()) { form.reportValidity(); return }
-    setError('')
-    setSubmitted(true)
-    form.reset()
-  }
-  return <form className="contact-form" onSubmit={handleSubmit}>
-    <div className="form-row"><label>Your name<input name="name" autoComplete="name" placeholder="How should we address you?" required minLength={2} /></label><label>Email address<input type="email" name="email" autoComplete="email" placeholder="you@company.com" required /></label></div>
-    <label>What are you looking for?<select name="service" defaultValue="" required><option value="" disabled>Select a service</option><option>Website development</option><option>Graphic design</option><option>Content creation</option><option>AI automation</option><option>Wedding digital card</option><option>Wedding photography + videography</option><option>A mix of things</option></select></label>
-    <label>A little about your project<textarea name="message" placeholder="What are you building, and what would you like help with?" rows={4} required minLength={10} /></label>
-    <button type="submit" className="button button-light">Send your enquiry <Arrow diagonal /></button>
-    <p className="form-note" aria-live="polite">{error || (submitted ? 'Thanks for sharing your project. This demo form does not send or store your details—connect it to an inbox or form service to receive enquiries.' : 'This demo form validates your details in the browser but does not send or store them.')}</p>
-  </form>
-}
 
+    setSubmitting(true)
+    setError('')
+    const fields = Object.fromEntries(new FormData(form).entries())
+    fields._subject = 'New Space Solutions project enquiry'
+    fields._replyto = String(fields.email ?? '')
+
+    try {
+      const response = await fetch('https://formsubmit.co/ajax/muhddanish704@gmail.com', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(fields),
+      })
+      const result = await response.json() as { success?: boolean | string }
+      if (!response.ok || (result.success !== true && result.success !== 'true')) {
+        throw new Error('The enquiry service did not accept the submission.')
+      }
+      form.reset()
+      setSubmitted(true)
+    } catch {
+      setError('We could not send your enquiry just now. Please email muhddanish704@gmail.com directly or contact us on WhatsApp.')
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  return <>
+    <form className="contact-form" onSubmit={handleSubmit}>
+      <div className="form-row"><label>Your name<input name="name" autoComplete="name" placeholder="How should we address you?" required minLength={2} /></label><label>Email address<input type="email" name="email" autoComplete="email" placeholder="you@company.com" required /></label></div>
+      <label>Phone number (optional)<input type="tel" name="phone" autoComplete="tel" placeholder="+60 12-345 6789" /></label>
+      <label>What are you looking for?<select name="service" defaultValue="" required><option value="" disabled>Select a service</option><option>Website development</option><option>Graphic design</option><option>Content creation</option><option>AI automation</option><option>Wedding digital card</option><option>Wedding photography + videography</option><option>A mix of things</option></select></label>
+      <label>A little about your project<textarea name="message" placeholder="What are you building, and what would you like help with?" rows={4} required minLength={10} /></label>
+      <button type="submit" className="button button-light" disabled={submitting}>{submitting ? 'Sending…' : 'Send your enquiry'} <Arrow diagonal /></button>
+      <p className="form-note" aria-live="polite">{error || 'Your enquiry is sent through FormSubmit, a third-party email service, to our inbox. We do not store it on this website.'}</p>
+    </form>
+    {submitted && <div className="success-backdrop" role="presentation">
+      <section className="success-dialog" role="dialog" aria-modal="true" aria-labelledby="enquiry-success-title">
+        <button type="button" className="success-close" aria-label="Close confirmation" onClick={() => setSubmitted(false)}>×</button>
+        <span className="success-icon" aria-hidden="true">✓</span>
+        <span className="eyebrow">MESSAGE RECEIVED</span>
+        <h2 id="enquiry-success-title">Thanks for reaching out.</h2>
+        <p>Your enquiry was accepted for delivery. We’ll be in touch soon.</p>
+        <button type="button" className="button button-blue" onClick={() => setSubmitted(false)}>Done</button>
+      </section>
+    </div>}
+  </>
+}
 function PackageCards({ items }: { items: typeof packages }) {
   return <div className="package-grid">{items.map(p => <article className={p.featured ? 'package-card package-featured' : 'package-card'} key={p.name}><div className="package-top"><span className="eyebrow">{p.featured ? 'MOST POPULAR START' : 'INTRODUCTORY PACKAGE'}</span><span className="package-spark">✳</span></div><h3>{p.name}</h3><p>{p.note}</p><div className="package-price">{p.price}{p.price === 'Custom quote' ? null : <span> / starting from</span>}</div><ul>{p.items.map(item => <li key={item}><span>↗</span>{item}</li>)}</ul><a href="#contact" className={p.featured ? 'package-cta package-cta-light' : 'package-cta'}>Ask about this package <Arrow /></a></article>)}</div>
 }
@@ -88,8 +124,8 @@ function App() {
     <section className="section packages-section" id="packages"><div className="section-heading"><div><span className="eyebrow">WEBSITE PACKAGES</span><h2>A clear start.<br /><span>A better next step.</span></h2></div><p>Choose a focused one-page launch or a complete small business website. We confirm the scope, timeline and final quote before work begins.</p></div><PackageCards items={packages.slice(0, 4)} /><p className="package-footnote">Prices are starting guides in MYR. Domain, hosting, paid tools, copywriting, photography, online store features and extra pages are quoted separately. Final scope and price are agreed in writing before work begins.</p><div className="wedding-package-heading" id="wedding-packages"><span className="eyebrow">FOR YOUR WEDDING DAY</span><h3>Wedding packages</h3><p>Digital invitations and event coverage, scoped around your plans.</p></div><PackageCards items={packages.slice(4)} /><p className="package-footnote">The RM 450 digital card price is an introductory guide. Photo and video quotes depend on date, location, coverage hours and agreed deliverables.</p></section>
     <section className="about-section" id="about"><div className="about-mark" aria-hidden="true"><span>S</span><i>.</i></div><div className="about-copy"><span className="eyebrow">A LITTLE ABOUT US</span><h2>Digital should feel<br />a little more <span>human.</span></h2><p>Space Solutions makes room for better ideas. We’re a small digital solutions studio working with Malaysian SMEs to make their online presence clearer and more useful.</p><p>We ask good questions, keep the process collaborative and focus on what helps your business day to day. No jargon for its own sake. Just considered work and a clear handover.</p><a className="text-link" href="#contact">Let’s make room for your next idea <Arrow /></a></div><div className="about-aside"><span className="eyebrow">OUR WAY OF WORKING</span><div><span>01</span><b>Listen first</b><p>Understand the people, goals and constraints behind the brief.</p></div><div><span>02</span><b>Keep it clear</b><p>Agree on scope, timing and price before the work starts.</p></div><div><span>03</span><b>Hand over well</b><p>Leave you with the files and know-how to move forward.</p></div></div></section>
     <section className="section faq-section" id="faq"><div className="faq-heading"><span className="eyebrow">GOOD TO KNOW</span><h2>Questions,<br /><span>answered.</span></h2><p>A little more clarity before we start.</p></div><div className="faq-list">{faqs.map((f, i) => <details key={f.q} className="faq-item"><summary><span className="faq-num">0{i + 1}</span>{f.q}<span className="faq-plus" aria-hidden="true">+</span></summary><p>{f.a}</p></details>)}</div></section>
-    <section className="contact-section" id="contact"><div className="contact-top"><div><span className="eyebrow"><span className="status-dot" /> YOUR NEXT STEP</span><h2>Have a good one<br /><span>in mind?</span></h2><p>Tell us a little about your project. We’ll use your answers to understand what you need and suggest a sensible next step.</p></div><div className="contact-aside"><span className="aside-number">01—04</span><span>WEBSITE<br />DESIGN<br />CONTENT<br />AUTOMATION</span><span className="aside-star">✳</span></div></div><div className="contact-body"><div className="contact-invite"><span className="eyebrow">PROJECT ENQUIRY</span><p>Share the shape of your idea.<br />Rough notes are welcome.</p><a href="#top" className="text-link">Back to the top <Arrow diagonal /></a></div><ContactForm /></div></section>
-  </main><footer className="site-footer"><div className="footer-main"><a className="wordmark footer-brand" href="#top"><span className="brand-mark">S</span><span>space<span className="wordmark-light">solutions</span></span></a><p>Digital, made useful.<br />A small studio for businesses with somewhere to go.</p><div className="footer-contact"><span className="eyebrow">SAY HELLO</span><a href="#contact">Start a project enquiry <Arrow diagonal /></a><span>Malaysia · Working everywhere</span></div><div className="footer-social"><span className="eyebrow">FOLLOW ALONG</span><a href="https://www.instagram.com/" target="_blank" rel="noreferrer">Instagram <Arrow diagonal /></a><a href="https://www.linkedin.com/" target="_blank" rel="noreferrer">LinkedIn <Arrow diagonal /></a></div></div><div className="footer-bottom"><span>© {new Date().getFullYear()} Space Solutions. Made with care.</span><div><a href="#services">Services</a><a href="#weddings">Weddings</a><a href="#work">Work</a><a href="#packages">Packages</a><a href="#faq">FAQ</a></div><a href="#top">Back to top ↑</a></div></footer></>
+    <section className="contact-section" id="contact"><div className="contact-top"><div><span className="eyebrow"><span className="status-dot" /> YOUR NEXT STEP</span><h2>Have a good one<br /><span>in mind?</span></h2><p>Tell us a little about your project. We’ll use your answers to understand what you need and suggest a sensible next step.</p></div><div className="contact-aside"><span className="aside-number">01—04</span><span>WEBSITE<br />DESIGN<br />CONTENT<br />AUTOMATION</span><span className="aside-star">✳</span></div></div><div className="contact-body"><div className="contact-invite"><span className="eyebrow">PROJECT ENQUIRY</span><p>Share the shape of your idea.<br />Rough notes are welcome.</p><div className="contact-shortcuts"><a className="contact-channel whatsapp-channel" href="https://wa.me/60182394418" target="_blank" rel="noreferrer">Chat on WhatsApp <span>+60 18-239 4418</span><Arrow diagonal /></a><a className="contact-channel" href="mailto:muhddanish704@gmail.com">Email us <span>muhddanish704@gmail.com</span><Arrow diagonal /></a></div><a href="#top" className="text-link">Back to the top <Arrow diagonal /></a></div><ContactForm /></div></section>
+  </main><footer className="site-footer"><div className="footer-main"><a className="wordmark footer-brand" href="#top"><span className="brand-mark">S</span><span>space<span className="wordmark-light">solutions</span></span></a><p>Digital, made useful.<br />A small studio for businesses with somewhere to go.</p><div className="footer-contact"><span className="eyebrow">SAY HELLO</span><a href="https://wa.me/60182394418" target="_blank" rel="noreferrer">WhatsApp · +60 18-239 4418 <Arrow diagonal /></a><a href="mailto:muhddanish704@gmail.com">muhddanish704@gmail.com <Arrow diagonal /></a><span>Malaysia · Working everywhere</span></div><div className="footer-social"><span className="eyebrow">FOLLOW ALONG</span><a href="https://www.instagram.com/" target="_blank" rel="noreferrer">Instagram <Arrow diagonal /></a><a href="https://www.linkedin.com/" target="_blank" rel="noreferrer">LinkedIn <Arrow diagonal /></a></div></div><div className="footer-bottom"><span>© {new Date().getFullYear()} Space Solutions. Made with care.</span><div><a href="#services">Services</a><a href="#weddings">Weddings</a><a href="#work">Work</a><a href="#packages">Packages</a><a href="#faq">FAQ</a></div><a href="#top">Back to top ↑</a></div></footer></>
 }
 
 export default App
